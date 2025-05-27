@@ -101,9 +101,9 @@ const Sidebar = ({ tabs, activeTab, onTabSelect, onNewTab, onDeleteTab, onEditTa
             onClick: onNewTab,
             className: `w-full p-2 rounded text-sm font-medium transition-colors ${collapsed ? 'px-2' : ''}`,
             style: {
-                background: 'var(--accent)',
-                color: 'white',
-                border: '1px solid var(--accent)'
+                background: 'var(--bg-tertiary)',
+                color: 'var(--text-primary)',
+                border: '1px solid var(--border)'
             }
         }, collapsed ? '📝' : [
             React.createElement('span', { key: 'icon' }, '📝'),
@@ -119,7 +119,7 @@ const Sidebar = ({ tabs, activeTab, onTabSelect, onNewTab, onDeleteTab, onEditTa
                 key: tab.id,
                 className: `tab-compact cursor-pointer transition-colors ${activeTab === tab.id ? 'bg-opacity-20' : ''}`,
                 style: {
-                    backgroundColor: activeTab === tab.id ? 'var(--accent)' : 'transparent',
+                    backgroundColor: activeTab === tab.id ? 'var(--bg-hover)' : 'transparent',
                     borderBottom: '1px solid var(--border)',
                     opacity: activeTab === tab.id ? 0.9 : 1
                 },
@@ -372,9 +372,9 @@ const Toolbar = ({
                     onClick: () => setShowViewDropdown(!showViewDropdown),
                     className: 'px-3 py-1 rounded text-sm flex items-center gap-1',
                     style: {
-                        background: showPreview ? 'var(--accent)' : 'var(--bg-tertiary)',
-                        color: showPreview ? 'white' : 'var(--text-primary)',
-                        border: `1px solid ${showPreview ? 'var(--accent)' : 'var(--border)'}`
+                        background: 'var(--bg-tertiary)',
+                        color: 'var(--text-primary)',
+                        border: '1px solid var(--border)'
                     },
                     title: 'View options'
                 }, [
@@ -397,8 +397,8 @@ const Toolbar = ({
                         onClick: () => handleViewModeSelect('hide'),
                         className: 'w-full px-3 py-2 text-left text-sm hover:bg-opacity-10 transition-colors',
                         style: {
-                            background: !showPreview ? 'var(--accent)' : 'transparent',
-                            color: !showPreview ? 'white' : 'var(--text-primary)'
+                            background: !showPreview ? 'var(--bg-hover)' : 'transparent',
+                            color: 'var(--text-primary)'
                         }
                     }, 'Hide Preview'),
                     React.createElement('button', {
@@ -406,8 +406,8 @@ const Toolbar = ({
                         onClick: () => handleViewModeSelect('split'),
                         className: 'w-full px-3 py-2 text-left text-sm hover:bg-opacity-10 transition-colors',
                         style: {
-                            background: (showPreview && viewMode === 'split') ? 'var(--accent)' : 'transparent',
-                            color: (showPreview && viewMode === 'split') ? 'white' : 'var(--text-primary)'
+                            background: (showPreview && viewMode === 'split') ? 'var(--bg-hover)' : 'transparent',
+                            color: 'var(--text-primary)'
                         }
                     }, 'Split View'),
                     React.createElement('button', {
@@ -415,8 +415,8 @@ const Toolbar = ({
                         onClick: () => handleViewModeSelect('full'),
                         className: 'w-full px-3 py-2 text-left text-sm hover:bg-opacity-10 transition-colors',
                         style: {
-                            background: (showPreview && viewMode === 'preview-only') ? 'var(--accent)' : 'transparent',
-                            color: (showPreview && viewMode === 'preview-only') ? 'white' : 'var(--text-primary)'
+                            background: (showPreview && viewMode === 'preview-only') ? 'var(--bg-hover)' : 'transparent',
+                            color: 'var(--text-primary)'
                         }
                     }, 'Full View')
                 ])
@@ -495,9 +495,9 @@ const Toolbar = ({
                 onClick: onExport,
                 className: 'px-3 py-1 rounded text-sm flex items-center gap-1',
                 style: {
-                    background: 'var(--primary-color)',
-                    color: 'white',
-                    border: '1px solid var(--primary-color)'
+                    background: 'var(--bg-tertiary)',
+                    color: 'var(--text-primary)',
+                    border: '1px solid var(--border)'
                 },
                 title: 'Export note'
             }, [
@@ -510,9 +510,9 @@ const Toolbar = ({
                 onClick: onImport,
                 className: 'px-3 py-1 rounded text-sm flex items-center gap-1',
                 style: {
-                    background: 'var(--primary-color)',
-                    color: 'white',
-                    border: '1px solid var(--primary-color)'
+                    background: 'var(--bg-tertiary)',
+                    color: 'var(--text-primary)',
+                    border: '1px solid var(--border)'
                 },
                 title: 'Import note'
             }, [
