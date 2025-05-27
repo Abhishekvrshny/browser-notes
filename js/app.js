@@ -272,7 +272,8 @@ const App = () => {
                 wordCount,
                 onExport: handleExport,
                 onImport: handleImport,
-                viewMode
+                viewMode,
+                onToggleViewMode: handleToggleViewMode
             }),
 
             // Editor

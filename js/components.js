@@ -225,21 +225,6 @@ const Editor = ({ content, onChange, fontSize, showPreview, viewMode, onToggleVi
         return React.createElement('div', {
             className: 'full-preview'
         }, [
-            // Back to editor button
-            React.createElement('button', {
-                key: 'back-btn',
-                onClick: onToggleViewMode,
-                className: 'absolute top-4 left-4 z-10 px-3 py-1 rounded text-sm shadow-md transition-colors',
-                title: 'Back to split view (Ctrl+Shift+P)',
-                style: { 
-                    position: 'fixed', 
-                    zIndex: 1000,
-                    background: 'var(--bg-tertiary)',
-                    color: 'var(--text-primary)',
-                    border: '1px solid var(--border-color)'
-                }
-            }, '◀ Editor'),
-            
             // Full-width preview
             React.createElement('div', {
                 key: 'preview',
@@ -314,7 +299,7 @@ const Editor = ({ content, onChange, fontSize, showPreview, viewMode, onToggleVi
     ]);
 };
 
-// Toolbar Component with view mode indicator
+// Toolbar Component with view mode dropdown
 const Toolbar = ({ 
     showPreview, 
     onTogglePreview, 
@@ -325,11 +310,43 @@ const Toolbar = ({
     wordCount,
     onExport,
     onImport,
-    viewMode
+    viewMode,
+    onToggleViewMode
 }) => {
-    const getViewModeText = () => {
-        if (!showPreview) return '';
-        return viewMode === 'preview-only' ? ' (Full Preview)' : ' (Split)';
+    const { useState, useRef, useEffect } = React;
+    const [showViewDropdown, setShowViewDropdown] = useState(false);
+    const dropdownRef = useRef(null);
+
+    // Click outside handler
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setShowViewDropdown(false);
+            }
+        };
+        
+        if (showViewDropdown) {
+            document.addEventListener('mousedown', handleClickOutside);
+            return () => document.removeEventListener('mousedown', handleClickOutside);
+        }
+    }, [showViewDropdown]);
+
+    const handleViewModeSelect = (mode) => {
+        if (mode === 'hide') {
+            onTogglePreview();
+        } else if (mode === 'split') {
+            if (!showPreview) onTogglePreview();
+            if (viewMode !== 'split') onToggleViewMode();
+        } else if (mode === 'full') {
+            if (!showPreview) onTogglePreview();
+            if (viewMode !== 'preview-only') onToggleViewMode();
+        }
+        setShowViewDropdown(false);
+    };
+
+    const getCurrentViewText = () => {
+        if (!showPreview) return 'Hide';
+        return viewMode === 'preview-only' ? 'Full View' : 'Split View';
     };
 
     return React.createElement('div', {
@@ -344,19 +361,65 @@ const Toolbar = ({
             key: 'left',
             className: 'flex items-center gap-3'
         }, [
-            React.createElement('button', {
-                key: 'preview',
-                onClick: onTogglePreview,
-                className: 'px-3 py-1 rounded text-sm flex items-center gap-1',
-                style: {
-                    background: showPreview ? 'var(--accent)' : 'var(--bg-tertiary)',
-                    color: showPreview ? 'white' : 'var(--text-primary)',
-                    border: `1px solid ${showPreview ? 'var(--accent)' : 'var(--border)'}`
-                },
-                title: showPreview ? `Hide Preview${getViewModeText()}` : 'Show Preview'
+            // View mode dropdown
+            React.createElement('div', {
+                key: 'view-dropdown',
+                ref: dropdownRef,
+                className: 'relative'
             }, [
-                React.createElement('span', { key: 'icon' }, showPreview ? '👁️' : '👁️'),
-                React.createElement('span', { key: 'text' }, showPreview ? 'Hide' : 'Show')
+                React.createElement('button', {
+                    key: 'dropdown-button',
+                    onClick: () => setShowViewDropdown(!showViewDropdown),
+                    className: 'px-3 py-1 rounded text-sm flex items-center gap-1',
+                    style: {
+                        background: showPreview ? 'var(--accent)' : 'var(--bg-tertiary)',
+                        color: showPreview ? 'white' : 'var(--text-primary)',
+                        border: `1px solid ${showPreview ? 'var(--accent)' : 'var(--border)'}`
+                    },
+                    title: 'View options'
+                }, [
+                    React.createElement('span', { key: 'icon' }, '👁️'),
+                    React.createElement('span', { key: 'text' }, getCurrentViewText()),
+                    React.createElement('span', { key: 'arrow' }, ' ▼')
+                ]),
+                
+                showViewDropdown && React.createElement('div', {
+                    key: 'dropdown-menu',
+                    className: 'absolute top-full left-0 mt-1 py-1 rounded shadow-lg z-50',
+                    style: {
+                        background: 'var(--bg-secondary)',
+                        border: '1px solid var(--border)',
+                        minWidth: '120px'
+                    }
+                }, [
+                    React.createElement('button', {
+                        key: 'hide-option',
+                        onClick: () => handleViewModeSelect('hide'),
+                        className: 'w-full px-3 py-2 text-left text-sm hover:bg-opacity-10 transition-colors',
+                        style: {
+                            background: !showPreview ? 'var(--accent)' : 'transparent',
+                            color: !showPreview ? 'white' : 'var(--text-primary)'
+                        }
+                    }, 'Hide Preview'),
+                    React.createElement('button', {
+                        key: 'split-option',
+                        onClick: () => handleViewModeSelect('split'),
+                        className: 'w-full px-3 py-2 text-left text-sm hover:bg-opacity-10 transition-colors',
+                        style: {
+                            background: (showPreview && viewMode === 'split') ? 'var(--accent)' : 'transparent',
+                            color: (showPreview && viewMode === 'split') ? 'white' : 'var(--text-primary)'
+                        }
+                    }, 'Split View'),
+                    React.createElement('button', {
+                        key: 'full-option',
+                        onClick: () => handleViewModeSelect('full'),
+                        className: 'w-full px-3 py-2 text-left text-sm hover:bg-opacity-10 transition-colors',
+                        style: {
+                            background: (showPreview && viewMode === 'preview-only') ? 'var(--accent)' : 'transparent',
+                            color: (showPreview && viewMode === 'preview-only') ? 'white' : 'var(--text-primary)'
+                        }
+                    }, 'Full View')
+                ])
             ]),
             
             React.createElement('button', {
