@@ -257,6 +257,50 @@ const Toolbar = ({
             ]),
 
             React.createElement('a', {
+                key: 'personal-link',
+                href: 'https://varlog.co.in',
+                target: '_blank',
+                rel: 'noopener noreferrer',
+                className: 'px-3 py-1 rounded text-sm flex items-center gap-1 transition-colors hide-mobile',
+                style: {
+                    background: 'var(--bg-tertiary)',
+                    color: 'var(--text-primary)',
+                    border: '1px solid var(--border)',
+                    textDecoration: 'none'
+                },
+                title: 'Visit varlog.co.in'
+            }, [
+                React.createElement('svg', {
+                    key: 'personal-icon',
+                    width: '16',
+                    height: '16',
+                    viewBox: '0 0 24 24',
+                    fill: 'none',
+                    stroke: 'currentColor',
+                    strokeWidth: '2',
+                    strokeLinecap: 'round',
+                    strokeLinejoin: 'round',
+                    style: { flexShrink: 0 }
+                }, [
+                    React.createElement('circle', {
+                        key: 'circle',
+                        cx: '12',
+                        cy: '12',
+                        r: '10'
+                    }),
+                    React.createElement('path', {
+                        key: 'path1',
+                        d: 'M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20'
+                    }),
+                    React.createElement('path', {
+                        key: 'path2',
+                        d: 'M2 12h20'
+                    })
+                ]),
+                React.createElement('span', { key: 'text' }, 'varlog.co.in')
+            ]),
+
+            React.createElement('a', {
                 key: 'github-link',
                 href: 'https://github.com/Abhishekvrshny/browser-notes',
                 target: '_blank',

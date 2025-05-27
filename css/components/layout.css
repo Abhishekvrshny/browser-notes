@@ -167,7 +167,7 @@
 /* Mobile-first responsive design */
 
 /* Mobile sidebar overlay */
-@media (max-width: 768px) {
+@media (max-width: 640px) {
     .sidebar-container {
         position: fixed;
         top: 0;
@@ -467,7 +467,7 @@
 }
 
 /* Landscape phone orientation */
-@media (max-width: 768px) and (orientation: landscape) {
+@media (max-width: 640px) and (orientation: landscape) {
     .split-view {
         flex-direction: row;
     }
