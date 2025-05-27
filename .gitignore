@@ -5,7 +5,8 @@ yarn-debug.log*
 yarn-error.log*
 
 # Compiled JavaScript files (auto-generated)
-js/*.compiled.js
+# Note: These files are included in the repository for GitHub Pages deployment
+# js/*.compiled.js
 
 # OS generated files
 .DS_Store
