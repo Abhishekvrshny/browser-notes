@@ -77,16 +77,6 @@
     position: relative;
 }
 
-.markdown-preview pre::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent), var(--accent-hover));
-    border-radius: 6px 6px 0 0;
-}
 
 .markdown-preview pre code {
     background: none; 

@@ -459,3 +459,33 @@ input[type="checkbox"]:hover {
         transform: scale(1) translateY(0);
     }
 }
+
+/* Collapsed sidebar tab styling */
+.sidebar-container.w-12 .tab-compact {
+    padding: 0.5rem 0.25rem !important;
+}
+
+.sidebar-container.w-12 .tab-compact .tab-content {
+    justify-content: center;
+}
+
+.sidebar-container.w-12 .tab-compact .tab-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebar-container.w-12 .tab-compact .tab-title {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 1.5rem;
+}
+
+.sidebar-container.w-12 .tab-compact .tab-actions {
+    display: none;
+}
