@@ -56,58 +56,28 @@ const Editor = ({ content, onChange, fontSize, showPreview, viewMode, onToggleVi
         React.createElement('div', {
             key: 'editor',
             className: 'editor-pane'
-        }, [
-            React.createElement('div', {
-                key: 'editor-container',
-                className: 'editor-container'
-            }, React.createElement('textarea', {
-                value: content,
-                onChange: (e) => onChange(e.target.value),
-                className: 'editor-textarea',
-                style: { fontSize: `${fontSize}px` },
-                placeholder: 'Start typing your markdown here...'
-            })),
-            
-            // Expand to preview-only button
-            React.createElement('button', {
-                key: 'expand-btn',
-                onClick: onToggleViewMode,
-                className: 'absolute top-4 right-4 px-2 py-1 rounded text-xs shadow-sm transition-colors',
-                style: {
-                    background: 'var(--bg-tertiary)',
-                    color: 'var(--text-secondary)',
-                    border: '1px solid var(--border-color)'
-                },
-                title: 'Expand preview (Ctrl+Shift+P)'
-            }, '⋮⋮')
-        ]),
+        }, React.createElement('div', {
+            key: 'editor-container',
+            className: 'editor-container'
+        }, React.createElement('textarea', {
+            value: content,
+            onChange: (e) => onChange(e.target.value),
+            className: 'editor-textarea',
+            style: { fontSize: `${fontSize}px` },
+            placeholder: 'Start typing your markdown here...'
+        }))),
 
         // Preview pane
         React.createElement('div', {
             key: 'preview',
             className: 'preview-pane'
-        }, [
-            React.createElement('div', {
-                key: 'preview-content',
-                className: 'preview-container'
-            }, React.createElement('div', {
-                className: 'markdown-preview',
-                dangerouslySetInnerHTML: { __html: parseMarkdown(content) }
-            })),
-            
-            // Expand to preview-only button
-            React.createElement('button', {
-                key: 'expand-preview-btn',
-                onClick: onToggleViewMode,
-                className: 'absolute top-4 right-4 px-2 py-1 rounded text-xs shadow-sm transition-colors',
-                style: {
-                    background: 'var(--bg-tertiary)',
-                    color: 'var(--text-secondary)',
-                    border: '1px solid var(--border-color)'
-                },
-                title: 'Expand preview (Ctrl+Shift+P)'
-            }, '⤢')
-        ])
+        }, React.createElement('div', {
+            key: 'preview-content',
+            className: 'preview-container'
+        }, React.createElement('div', {
+            className: 'markdown-preview',
+            dangerouslySetInnerHTML: { __html: parseMarkdown(content) }
+        })))
     ]);
 };
 

@@ -1,4 +1,4 @@
-// Toolbar Component with view mode dropdown
+// Toolbar Component with view mode buttons
 const Toolbar = ({ 
     showPreview, 
     onTogglePreview, 
@@ -12,27 +12,9 @@ const Toolbar = ({
     viewMode,
     onToggleViewMode
 }) => {
-    const { useState, useRef, useEffect } = React;
-    const [showViewDropdown, setShowViewDropdown] = useState(false);
-    const dropdownRef = useRef(null);
-
-    // Click outside handler
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setShowViewDropdown(false);
-            }
-        };
-        
-        if (showViewDropdown) {
-            document.addEventListener('mousedown', handleClickOutside);
-            return () => document.removeEventListener('mousedown', handleClickOutside);
-        }
-    }, [showViewDropdown]);
-
     const handleViewModeSelect = (mode) => {
         if (mode === 'hide') {
-            onTogglePreview();
+            if (showPreview) onTogglePreview();
         } else if (mode === 'split') {
             if (!showPreview) onTogglePreview();
             if (viewMode !== 'split') onToggleViewMode();
@@ -40,12 +22,13 @@ const Toolbar = ({
             if (!showPreview) onTogglePreview();
             if (viewMode !== 'preview-only') onToggleViewMode();
         }
-        setShowViewDropdown(false);
     };
 
-    const getCurrentViewText = () => {
-        if (!showPreview) return 'Hide';
-        return viewMode === 'preview-only' ? 'Full View' : 'Split View';
+    const isActive = (mode) => {
+        if (mode === 'hide') return !showPreview;
+        if (mode === 'split') return showPreview && viewMode === 'split';
+        if (mode === 'full') return showPreview && viewMode === 'preview-only';
+        return false;
     };
 
     return React.createElement('div', {
@@ -60,77 +43,90 @@ const Toolbar = ({
             key: 'left',
             className: 'flex items-center gap-3'
         }, [
-            // View mode dropdown
+            // View mode buttons
             React.createElement('div', {
-                key: 'view-dropdown',
-                ref: dropdownRef,
-                className: 'relative'
+                key: 'view-buttons',
+                className: 'flex items-center gap-1',
+                style: {
+                    border: '1px solid var(--border)',
+                    borderRadius: '4px',
+                    overflow: 'hidden'
+                }
             }, [
                 React.createElement('button', {
-                    key: 'dropdown-button',
-                    onClick: () => setShowViewDropdown(!showViewDropdown),
-                    className: 'px-3 py-1 rounded text-sm flex items-center gap-1',
+                    key: 'hide-button',
+                    onClick: () => handleViewModeSelect('hide'),
+                    className: 'px-3 py-1 text-sm transition-colors',
                     style: {
-                        background: 'var(--bg-tertiary)',
+                        background: isActive('hide') ? 'var(--bg-hover)' : 'var(--bg-tertiary)',
                         color: 'var(--text-primary)',
-                        border: '1px solid var(--border)'
+                        border: 'none',
+                        borderRight: '1px solid var(--border)'
                     },
-                    title: 'View options'
-                }, [
-                    React.createElement('span', { key: 'icon' }, '👁️'),
-                    React.createElement('span', { key: 'text' }, getCurrentViewText()),
-                    React.createElement('span', { key: 'arrow' }, ' ▼')
-                ]),
-                
-                showViewDropdown && React.createElement('div', {
-                    key: 'dropdown-menu',
-                    className: 'absolute top-full left-0 mt-1 py-1 rounded shadow-lg z-50',
+                    title: 'Hide preview'
+                }, 'Hide'),
+                React.createElement('button', {
+                    key: 'split-button',
+                    onClick: () => handleViewModeSelect('split'),
+                    className: 'px-3 py-1 text-sm transition-colors',
                     style: {
-                        background: 'var(--bg-secondary)',
-                        border: '1px solid var(--border)',
-                        minWidth: '120px'
-                    }
-                }, [
-                    React.createElement('button', {
-                        key: 'hide-option',
-                        onClick: () => handleViewModeSelect('hide'),
-                        className: 'w-full px-3 py-2 text-left text-sm hover:bg-opacity-10 transition-colors',
-                        style: {
-                            background: !showPreview ? 'var(--bg-hover)' : 'transparent',
-                            color: 'var(--text-primary)'
-                        }
-                    }, 'Hide Preview'),
-                    React.createElement('button', {
-                        key: 'split-option',
-                        onClick: () => handleViewModeSelect('split'),
-                        className: 'w-full px-3 py-2 text-left text-sm hover:bg-opacity-10 transition-colors',
-                        style: {
-                            background: (showPreview && viewMode === 'split') ? 'var(--bg-hover)' : 'transparent',
-                            color: 'var(--text-primary)'
-                        }
-                    }, 'Split View'),
-                    React.createElement('button', {
-                        key: 'full-option',
-                        onClick: () => handleViewModeSelect('full'),
-                        className: 'w-full px-3 py-2 text-left text-sm hover:bg-opacity-10 transition-colors',
-                        style: {
-                            background: (showPreview && viewMode === 'preview-only') ? 'var(--bg-hover)' : 'transparent',
-                            color: 'var(--text-primary)'
-                        }
-                    }, 'Full View')
-                ])
+                        background: isActive('split') ? 'var(--bg-hover)' : 'var(--bg-tertiary)',
+                        color: 'var(--text-primary)',
+                        border: 'none',
+                        borderRight: '1px solid var(--border)'
+                    },
+                    title: 'Split view'
+                }, 'Split'),
+                React.createElement('button', {
+                    key: 'full-button',
+                    onClick: () => handleViewModeSelect('full'),
+                    className: 'px-3 py-1 text-sm transition-colors',
+                    style: {
+                        background: isActive('full') ? 'var(--bg-hover)' : 'var(--bg-tertiary)',
+                        color: 'var(--text-primary)',
+                        border: 'none'
+                    },
+                    title: 'Full preview'
+                }, 'Full')
             ]),
             
             React.createElement('button', {
                 key: 'theme',
                 onClick: onToggleTheme,
-                className: 'px-3 py-1 rounded text-sm',
+                className: 'px-3 py-1 rounded text-sm flex items-center gap-1',
                 style: {
                     background: 'var(--bg-tertiary)',
                     color: 'var(--text-primary)',
                     border: '1px solid var(--border)'
                 }
-            }, theme === 'light' ? '🌙 Dark' : '☀️ Light'),
+            }, [
+                theme === 'light' ? 
+                    React.createElement('svg', {
+                        key: 'icon',
+                        className: 'w-4 h-4',
+                        fill: 'none',
+                        stroke: 'currentColor',
+                        viewBox: '0 0 24 24'
+                    }, React.createElement('path', {
+                        strokeLinecap: 'round',
+                        strokeLinejoin: 'round',
+                        strokeWidth: 2,
+                        d: 'M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z'
+                    })) :
+                    React.createElement('svg', {
+                        key: 'icon',
+                        className: 'w-4 h-4',
+                        fill: 'none',
+                        stroke: 'currentColor',
+                        viewBox: '0 0 24 24'
+                    }, React.createElement('path', {
+                        strokeLinecap: 'round',
+                        strokeLinejoin: 'round',
+                        strokeWidth: 2,
+                        d: 'M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z'
+                    })),
+                React.createElement('span', { key: 'text' }, theme === 'light' ? 'Dark' : 'Light')
+            ]),
 
             React.createElement('div', {
                 key: 'font-size',
@@ -200,7 +196,18 @@ const Toolbar = ({
                 },
                 title: 'Export note'
             }, [
-                React.createElement('span', { key: 'icon' }, '📤'),
+                React.createElement('svg', {
+                    key: 'icon',
+                    className: 'w-4 h-4',
+                    fill: 'none',
+                    stroke: 'currentColor',
+                    viewBox: '0 0 24 24'
+                }, React.createElement('path', {
+                    strokeLinecap: 'round',
+                    strokeLinejoin: 'round',
+                    strokeWidth: 2,
+                    d: 'M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
+                })),
                 React.createElement('span', { key: 'text' }, 'Export')
             ]),
 
@@ -215,7 +222,18 @@ const Toolbar = ({
                 },
                 title: 'Import note'
             }, [
-                React.createElement('span', { key: 'icon' }, '📥'),
+                React.createElement('svg', {
+                    key: 'icon',
+                    className: 'w-4 h-4',
+                    fill: 'none',
+                    stroke: 'currentColor',
+                    viewBox: '0 0 24 24'
+                }, React.createElement('path', {
+                    strokeLinecap: 'round',
+                    strokeLinejoin: 'round',
+                    strokeWidth: 2,
+                    d: 'M12 14l-3-3m0 0l3-3m-3 3h12M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2z'
+                })),
                 React.createElement('span', { key: 'text' }, 'Import')
             ]),
 

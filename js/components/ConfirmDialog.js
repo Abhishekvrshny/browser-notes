@@ -1,4 +1,4 @@
-// Confirmation Dialog Component
+// Confirmation Dialog Component using Daisy UI
 const ConfirmDialog = ({ isOpen, title, message, onConfirm, onCancel, confirmText = 'Delete', cancelText = 'Cancel' }) => {
     const { useEffect, useRef } = React;
     const dialogRef = useRef(null);
@@ -7,9 +7,6 @@ const ConfirmDialog = ({ isOpen, title, message, onConfirm, onCancel, confirmTex
         if (isOpen) {
             // Focus the dialog when it opens
             dialogRef.current?.focus();
-            
-            // Prevent body scroll
-            document.body.style.overflow = 'hidden';
             
             const handleKeyDown = (event) => {
                 if (event.key === 'Escape') {
@@ -23,7 +20,6 @@ const ConfirmDialog = ({ isOpen, title, message, onConfirm, onCancel, confirmTex
             
             return () => {
                 document.removeEventListener('keydown', handleKeyDown);
-                document.body.style.overflow = '';
             };
         }
     }, [isOpen, onConfirm, onCancel]);
@@ -31,46 +27,45 @@ const ConfirmDialog = ({ isOpen, title, message, onConfirm, onCancel, confirmTex
     if (!isOpen) return null;
 
     return React.createElement('div', {
-        className: 'confirm-dialog-overlay',
-        onClick: onCancel
+        className: 'modal modal-open'
     }, [
         React.createElement('div', {
-            key: 'dialog',
+            key: 'modal-box',
             ref: dialogRef,
-            className: 'confirm-dialog',
-            onClick: (e) => e.stopPropagation(),
+            className: 'modal-box',
             tabIndex: -1
         }, [
-            React.createElement('div', {
-                key: 'header',
-                className: 'confirm-dialog-header'
-            }, React.createElement('h3', {
-                className: 'confirm-dialog-title'
-            }, title)),
+            React.createElement('h3', {
+                key: 'title',
+                className: 'font-bold text-lg mb-4'
+            }, title),
+            
+            React.createElement('p', {
+                key: 'message',
+                className: 'py-4'
+            }, message),
             
             React.createElement('div', {
-                key: 'body',
-                className: 'confirm-dialog-body'
-            }, React.createElement('p', {
-                className: 'confirm-dialog-message'
-            }, message)),
-            
-            React.createElement('div', {
-                key: 'footer',
-                className: 'confirm-dialog-footer'
+                key: 'actions',
+                className: 'modal-action'
             }, [
                 React.createElement('button', {
                     key: 'cancel',
                     onClick: onCancel,
-                    className: 'confirm-dialog-button cancel'
+                    className: 'btn btn-ghost'
                 }, cancelText),
                 React.createElement('button', {
                     key: 'confirm',
                     onClick: onConfirm,
-                    className: 'confirm-dialog-button confirm'
+                    className: 'btn btn-error'
                 }, confirmText)
             ])
-        ])
+        ]),
+        React.createElement('div', {
+            key: 'backdrop',
+            className: 'modal-backdrop',
+            onClick: onCancel
+        })
     ]);
 };
 
