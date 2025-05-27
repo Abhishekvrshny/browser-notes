@@ -1,0 +1,230 @@
+/* Markdown preview styles */
+.markdown-preview {
+    line-height: 1.7; 
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 14px;
+    letter-spacing: 0.01em;
+}
+
+.markdown-preview h1 {
+    font-size: 1.75em; 
+    font-weight: 700; 
+    color: var(--accent);
+    border-bottom: 2px solid var(--border-color); 
+    padding-bottom: 0.75em; 
+    margin: 2em 0 1.25em 0;
+    letter-spacing: -0.02em;
+}
+
+.markdown-preview h2 {
+    font-size: 1.5em; 
+    font-weight: 600; 
+    color: var(--text-primary);
+    margin: 1.75em 0 1em 0;
+    position: relative;
+    padding-left: 0.5em;
+}
+
+.markdown-preview h2::before {
+    content: '▶';
+    color: var(--accent);
+    position: absolute;
+    left: 0;
+    font-size: 0.7em;
+    top: 0.2em;
+}
+
+.markdown-preview h3 { 
+    font-size: 1.25em; 
+    font-weight: 600; 
+    color: var(--text-secondary); 
+    margin: 1.5em 0 0.75em 0; 
+    border-left: 3px solid var(--accent);
+    padding-left: 0.75em;
+}
+
+.markdown-preview p { 
+    margin: 1em 0; 
+    line-height: 1.7; 
+}
+
+.markdown-preview code {
+    background: var(--bg-tertiary); 
+    color: var(--accent); 
+    padding: 0.25em 0.5em; 
+    border-radius: var(--border-radius);
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace; 
+    font-size: 0.9em;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.markdown-preview pre {
+    background: var(--bg-secondary); 
+    border: 1px solid var(--border-color); 
+    border-radius: 6px;
+    padding: 1.25em; 
+    overflow-x: auto; 
+    margin: 1.5em 0;
+    box-shadow: var(--shadow-md);
+    position: relative;
+}
+
+.markdown-preview pre::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+    border-radius: 6px 6px 0 0;
+}
+
+.markdown-preview pre code {
+    background: none; 
+    color: var(--text-primary); 
+    padding: 0; 
+    border: none;
+    font-size: 0.9em; 
+    line-height: 1.5;
+    box-shadow: none;
+}
+
+.markdown-preview blockquote {
+    border-left: 4px solid var(--accent); 
+    background: var(--bg-secondary);
+    padding: 1em 1.25em; 
+    margin: 1.5em 0; 
+    color: var(--text-secondary);
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+}
+
+.markdown-preview blockquote::before {
+    content: '"';
+    font-size: 3em;
+    color: var(--accent);
+    position: absolute;
+    top: -0.25em;
+    left: 0.25em;
+    opacity: 0.3;
+    font-family: serif;
+}
+
+.markdown-preview table {
+    border-collapse: collapse; 
+    width: 100%;
+    margin: 1.5em 0; 
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.markdown-preview th {
+    background: var(--bg-tertiary); 
+    color: var(--text-primary); 
+    font-weight: 600; 
+    padding: 1em; 
+    text-align: left;
+    border-bottom: 2px solid var(--accent);
+    position: relative;
+}
+
+.markdown-preview td {
+    padding: 0.875em 1em; 
+    border-bottom: 1px solid var(--border-color); 
+    transition: background-color 0.2s ease;
+}
+
+.markdown-preview tr:nth-child(even) td { 
+    background: var(--bg-secondary); 
+}
+
+.markdown-preview tr:hover td {
+    background: var(--bg-hover);
+}
+
+.markdown-preview ul, .markdown-preview ol { 
+    margin: 1em 0; 
+    padding-left: 2em; 
+}
+
+.markdown-preview li {
+    margin: 0.5em 0; 
+    line-height: 1.6;
+}
+
+.markdown-preview ul li::marker {
+    color: var(--accent);
+}
+
+.markdown-preview ol li::marker {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* Task Lists / Checkboxes */
+.markdown-preview .task-list-item {
+    list-style: none; 
+    position: relative; 
+    padding-left: 2em; 
+    margin: 0.5em 0;
+}
+
+.markdown-preview .task-list-item-checkbox {
+    position: absolute; 
+    left: 0; 
+    top: 0.3em; 
+    margin: 0;
+    width: 1.1em; 
+    height: 1.1em; 
+    accent-color: var(--accent);
+    border-radius: 3px;
+}
+
+.markdown-preview a {
+    color: var(--accent); 
+    text-decoration: none; 
+    transition: all 0.2s ease;
+    border-bottom: 1px solid transparent;
+}
+
+.markdown-preview a:hover { 
+    color: var(--accent-hover); 
+    border-bottom-color: var(--accent-hover);
+}
+
+.markdown-preview img { 
+    max-width: 100%; 
+    height: auto; 
+    border-radius: 6px; 
+    margin: 1em 0;
+    box-shadow: var(--shadow-md);
+}
+
+.markdown-preview hr {
+    border: none; 
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+    margin: 2em 0;
+}
+
+.markdown-preview strong { 
+    font-weight: 700; 
+    color: var(--accent); 
+}
+
+.markdown-preview em { 
+    font-style: italic; 
+    color: var(--text-secondary); 
+}
+
+.markdown-preview del { 
+    text-decoration: line-through; 
+    color: var(--text-muted);
+    opacity: 0.7;
+}

@@ -1,0 +1,85 @@
+/* Modern scrollbar styling */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+    transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+/* Firefox scrollbar */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) transparent;
+}
+
+/* Ensure proper scrolling behavior for large content */
+.editor-textarea::-webkit-scrollbar,
+.preview-container::-webkit-scrollbar,
+.sidebar-tabs::-webkit-scrollbar {
+    width: 8px;
+}
+
+.editor-textarea::-webkit-scrollbar-track,
+.preview-container::-webkit-scrollbar-track,
+.sidebar-tabs::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+    border-radius: 4px;
+}
+
+.editor-textarea::-webkit-scrollbar-thumb,
+.preview-container::-webkit-scrollbar-thumb,
+.sidebar-tabs::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+    border: 2px solid var(--bg-secondary);
+}
+
+.editor-textarea::-webkit-scrollbar-thumb:hover,
+.preview-container::-webkit-scrollbar-thumb:hover,
+.sidebar-tabs::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+}
+
+/* Firefox scrollbar for editor and preview */
+.editor-textarea,
+.preview-container,
+.sidebar-tabs {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) var(--bg-secondary);
+}
+
+/* Performance optimizations for large text */
+.editor-textarea {
+    will-change: scroll-position;
+    transform: translateZ(0);
+}
+
+.preview-container {
+    will-change: scroll-position;
+    transform: translateZ(0);
+}
+
+/* Prevent text selection issues during scrolling */
+.editor-textarea {
+    -webkit-overflow-scrolling: touch;
+}
+
+.preview-container {
+    -webkit-overflow-scrolling: touch;
+}

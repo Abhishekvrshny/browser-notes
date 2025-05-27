@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Browser Notes - Markdown Note-Taking App</title>
+    <title>Browser Notes - Markdown Note-Taking App (Modular)</title>
     
     <!-- External Dependencies -->
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
@@ -17,17 +17,23 @@
         tailwind.config = { darkMode: 'class' }
     </script>
     
-    <!-- Application Styles -->
-    <link rel="stylesheet" href="css/styles.css">
+    <!-- Modular Application Styles -->
+    <link rel="stylesheet" href="css/main.css">
     
-    <!-- Utilities -->
-    <script src="js/utils.js"></script>
+    <!-- Modular JavaScript Components -->
+    <script src="js/services/storage.js"></script>
+    <script src="js/services/markdown.js"></script>
+    <script src="js/services/textUtils.js"></script>
+    <script src="js/constants/content.js"></script>
     
-    <!-- Components (Pre-compiled) -->
-    <script src="js/components.compiled.js"></script>
+    <script src="js/components/ContextMenu.js"></script>
+    <script src="js/components/ConfirmDialog.js"></script>
+    <script src="js/components/Sidebar.js"></script>
+    <script src="js/components/Editor.js"></script>
+    <script src="js/components/Toolbar.js"></script>
     
-    <!-- Main App (Pre-compiled) -->
-    <script src="js/app.compiled.js"></script>
+    <!-- Main Application -->
+    <script src="js/main.js"></script>
 </head>
 <body>
     <div id="root"></div>

@@ -1,0 +1,106 @@
+/* CSS Variables for theming - Updated with new color schemes */
+:root {
+    /* Light Theme - Updated Colors */
+    --primary-color: #007BFF;
+    --primary-hover: #0056b3;
+    --secondary-color: #6B6B6B;
+    --success-color: #10b981;
+    --error-color: #ef4444;
+    --warning-color: #f59e0b;
+
+    /* Light Theme Backgrounds */
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F5F5F5;
+    --bg-tertiary: #FAFAFA;
+    --note-card-bg: #FAFAFA;
+    --button-bg: #E0E0E0;
+    --button-hover: #D0D0D0;
+
+    /* Light Theme Text */
+    --text-primary: #2A2A2A;
+    --text-secondary: #6B6B6B;
+    --text-muted: #6B6B6B;
+
+    /* Light Theme UI Elements */
+    --border-color: #DDDDDD;
+    --highlight-accent: #007BFF;
+    --highlight-accent-alt: #FF5722;
+    --divider-line: #DDDDDD;
+
+    --border-radius: 4px;
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+
+    --transition: all 0.2s ease-in-out;
+
+    /* Legacy variable mappings for compatibility */
+    --bg-hover: var(--button-hover);
+    --text-primary-alt: var(--text-primary);
+    --border: var(--border-color);
+    --border-light: var(--divider-line);
+    --border-focus: var(--highlight-accent);
+    --accent: var(--highlight-accent);
+    --accent-hover: var(--primary-hover);
+    --accent-dim: var(--text-secondary);
+    --success: var(--success-color);
+    --warning: var(--warning-color);
+    --danger: var(--error-color);
+    --info: var(--text-secondary);
+    --shadow: rgba(0, 0, 0, 0.15);
+    --glow: rgba(0, 123, 255, 0.15);
+    --sidebar-width-narrow: 200px;
+}
+
+/* Dark theme variables */
+.dark {
+    /* Dark Theme Background Colors */
+    --bg-primary: #1E1E2F;
+    --bg-secondary: #252537;
+    --bg-tertiary: #2A2A40;
+    --note-card-bg: #2A2A40;
+    --button-bg: #3A3A5A;
+    --button-hover: #4C4C70;
+
+    /* Dark Theme Text Colors */
+    --text-primary: #F0F0F0;
+    --text-secondary: #B0B0C3;
+    --text-muted: #B0B0C3;
+
+    /* Dark Theme UI Elements */
+    --border-color: #3E3E4F;
+    --highlight-accent: #007BFF;
+    --highlight-accent-alt: #00B4D8;
+    --divider-line: #3E3E4F;
+
+    /* Legacy variable mappings for dark mode */
+    --bg-hover: var(--button-hover);
+    --text-primary-alt: var(--text-primary);
+    --border: var(--border-color);
+    --border-light: var(--divider-line);
+    --border-focus: var(--highlight-accent);
+    --accent: var(--highlight-accent);
+    --accent-hover: #0056b3;
+    --accent-dim: var(--text-secondary);
+    --success: #3fb950;
+    --warning: #d29922;
+    --danger: #f85149;
+    --info: var(--text-secondary);
+    --shadow: rgba(0, 0, 0, 0.5);
+    --glow: rgba(0, 123, 255, 0.15);
+}
+
+/* Dark mode media query support */
+@media (prefers-color-scheme: dark) {
+    :root:not(.dark):not(.light) {
+        --bg-primary: #1E1E2F;
+        --bg-secondary: #252537;
+        --bg-tertiary: #2A2A40;
+        --text-primary: #F0F0F0;
+        --text-secondary: #B0B0C3;
+        --text-muted: #B0B0C3;
+        --border-color: #3E3E4F;
+        --accent: #007BFF;
+        --accent-hover: #0056b3;
+    }
+}

@@ -1,3 +1,6 @@
+// Main JavaScript file that initializes the app
+// Note: All dependencies are loaded via script tags in HTML
+
 // Main Application Component
 const App = () => {
     const { useState, useEffect, useRef } = React;
@@ -9,7 +12,7 @@ const App = () => {
     const [theme, setTheme] = useState(() => storage.get('theme') || 'light');
     const [fontSize, setFontSize] = useState(() => storage.get('fontSize') || 14);
     const [showPreview, setShowPreview] = useState(() => storage.get('showPreview') || false);
-    const [viewMode, setViewMode] = useState(() => storage.get('viewMode') || 'split'); // 'split' or 'preview-only'
+    const [viewMode, setViewMode] = useState(() => storage.get('viewMode') || 'split');
     const [sidebarCollapsed, setSidebarCollapsed] = useState(() => storage.get('sidebarCollapsed') || false);
     const [contextMenu, setContextMenu] = useState(null);
     const [confirmDialog, setConfirmDialog] = useState(null);
@@ -37,65 +40,34 @@ const App = () => {
     }, [theme]);
 
     // Save state to localStorage
-    useEffect(() => {
-        storage.set('tabs', tabs);
-    }, [tabs]);
-
-    useEffect(() => {
-        storage.set('notes', notes);
-    }, [notes]);
-
-    useEffect(() => {
-        storage.set('activeTab', activeTab);
-    }, [activeTab]);
-
-    useEffect(() => {
-        storage.set('theme', theme);
-    }, [theme]);
-
-    useEffect(() => {
-        storage.set('fontSize', fontSize);
-    }, [fontSize]);
-
-    useEffect(() => {
-        storage.set('showPreview', showPreview);
-    }, [showPreview]);
-
-    useEffect(() => {
-        storage.set('viewMode', viewMode);
-    }, [viewMode]);
-
-    useEffect(() => {
-        storage.set('sidebarCollapsed', sidebarCollapsed);
-    }, [sidebarCollapsed]);
+    useEffect(() => { storage.set('tabs', tabs); }, [tabs]);
+    useEffect(() => { storage.set('notes', notes); }, [notes]);
+    useEffect(() => { storage.set('activeTab', activeTab); }, [activeTab]);
+    useEffect(() => { storage.set('theme', theme); }, [theme]);
+    useEffect(() => { storage.set('fontSize', fontSize); }, [fontSize]);
+    useEffect(() => { storage.set('showPreview', showPreview); }, [showPreview]);
+    useEffect(() => { storage.set('viewMode', viewMode); }, [viewMode]);
+    useEffect(() => { storage.set('sidebarCollapsed', sidebarCollapsed); }, [sidebarCollapsed]);
 
     // Event handlers
     const handleNewTab = () => {
         const id = Date.now().toString();
-        const newTab = {
-            id,
-            title: 'New Note',
-            createdAt: new Date().toISOString()
-        };
+        const newTab = { id, title: 'New Note', createdAt: new Date().toISOString() };
         setTabs(prev => [...prev, newTab]);
         setNotes(prev => ({ ...prev, [id]: '# New Note\n\nStart writing here...' }));
         setActiveTab(id);
     };
 
-    const handleTabSelect = (tabId) => {
-        setActiveTab(tabId);
-    };
+    const handleTabSelect = (tabId) => setActiveTab(tabId);
 
     const handleDeleteTab = (tabId) => {
-        if (tabs.length <= 1) return; // Don't delete the last tab
-        
+        if (tabs.length <= 1) return;
         setTabs(prev => prev.filter(tab => tab.id !== tabId));
         setNotes(prev => {
             const newNotes = { ...prev };
             delete newNotes[tabId];
             return newNotes;
         });
-        
         if (activeTab === tabId) {
             const remainingTabs = tabs.filter(tab => tab.id !== tabId);
             setActiveTab(remainingTabs[0]?.id || null);
@@ -110,10 +82,7 @@ const App = () => {
 
     const handleNoteChange = (content) => {
         if (!activeTab) return;
-        
         setNotes(prev => ({ ...prev, [activeTab]: content }));
-        
-        // Auto-update tab title based on content
         const title = extractTitle(content);
         setTabs(prev => prev.map(tab => 
             tab.id === activeTab ? { ...tab, title } : tab
@@ -123,10 +92,7 @@ const App = () => {
     const handleTogglePreview = () => {
         setShowPreview(prev => {
             const newShowPreview = !prev;
-            // Reset to split view when enabling preview
-            if (newShowPreview) {
-                setViewMode('split');
-            }
+            if (newShowPreview) setViewMode('split');
             return newShowPreview;
         });
     };
@@ -139,18 +105,12 @@ const App = () => {
         setTheme(prev => prev === 'light' ? 'dark' : 'light');
     };
 
-    const handleFontSizeChange = (newSize) => {
-        setFontSize(newSize);
-    };
-
-    const handleToggleSidebar = () => {
-        setSidebarCollapsed(prev => !prev);
-    };
+    const handleFontSizeChange = (newSize) => setFontSize(newSize);
+    const handleToggleSidebar = () => setSidebarCollapsed(prev => !prev);
 
     const handleExport = () => {
         const exportData = {
-            tabs,
-            notes,
+            tabs, notes,
             exportDate: new Date().toISOString(),
             version: '1.0'
         };
@@ -169,9 +129,7 @@ const App = () => {
         URL.revokeObjectURL(url);
     };
 
-    const handleImport = () => {
-        fileInputRef.current?.click();
-    };
+    const handleImport = () => fileInputRef.current?.click();
 
     const handleFileImport = (event) => {
         const file = event.target.files?.[0];
@@ -181,7 +139,6 @@ const App = () => {
         reader.onload = (e) => {
             try {
                 const importData = JSON.parse(e.target.result);
-                
                 if (importData.tabs && importData.notes) {
                     setTabs(importData.tabs);
                     setNotes(importData.notes);
@@ -194,8 +151,6 @@ const App = () => {
             }
         };
         reader.readAsText(file);
-        
-        // Reset file input
         event.target.value = '';
     };
 
@@ -217,9 +172,7 @@ const App = () => {
         });
     };
 
-    const closeContextMenu = () => {
-        setContextMenu(null);
-    };
+    const closeContextMenu = () => setContextMenu(null);
 
     const handleDeleteTabRequest = (tabId) => {
         if (tabs.length <= 1) return; // Don't delete the last tab
@@ -264,8 +217,7 @@ const App = () => {
         // Sidebar
         React.createElement(Sidebar, {
             key: 'sidebar',
-            tabs,
-            activeTab,
+            tabs, activeTab,
             onTabSelect: handleTabSelect,
             onNewTab: handleNewTab,
             onDeleteTab: handleDeleteTabRequest,
@@ -282,17 +234,11 @@ const App = () => {
             // Toolbar
             React.createElement(Toolbar, {
                 key: 'toolbar',
-                showPreview,
-                onTogglePreview: handleTogglePreview,
-                theme,
-                onToggleTheme: handleToggleTheme,
-                fontSize,
-                onFontSizeChange: handleFontSizeChange,
-                wordCount,
-                onExport: handleExport,
-                onImport: handleImport,
-                viewMode,
-                onToggleViewMode: handleToggleViewMode
+                showPreview, onTogglePreview: handleTogglePreview,
+                theme, onToggleTheme: handleToggleTheme,
+                fontSize, onFontSizeChange: handleFontSizeChange,
+                wordCount, onExport: handleExport, onImport: handleImport,
+                viewMode, onToggleViewMode: handleToggleViewMode
             }),
 
             // Editor
@@ -302,9 +248,7 @@ const App = () => {
             }, React.createElement(Editor, {
                 content: currentContent,
                 onChange: handleNoteChange,
-                fontSize,
-                showPreview,
-                viewMode,
+                fontSize, showPreview, viewMode,
                 onToggleViewMode: handleToggleViewMode
             }))
         ]),

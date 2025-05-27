@@ -1,0 +1,7 @@
+/* Main CSS file that imports all modular components */
+@import url('./themes/variables.css');
+@import url('./components/base.css');
+@import url('./components/markdown.css');
+@import url('./components/layout.css');
+@import url('./components/ui-elements.css');
+@import url('./components/scrollbar.css');
