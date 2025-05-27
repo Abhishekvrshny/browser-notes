@@ -14,6 +14,7 @@ const App = () => {
     const [showPreview, setShowPreview] = useState(() => storage.get('showPreview') || false);
     const [viewMode, setViewMode] = useState(() => storage.get('viewMode') || 'split');
     const [sidebarCollapsed, setSidebarCollapsed] = useState(() => storage.get('sidebarCollapsed') || false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [contextMenu, setContextMenu] = useState(null);
     const [confirmDialog, setConfirmDialog] = useState(null);
     const fileInputRef = useRef(null);
@@ -107,6 +108,16 @@ const App = () => {
 
     const handleFontSizeChange = (newSize) => setFontSize(newSize);
     const handleToggleSidebar = () => setSidebarCollapsed(prev => !prev);
+    
+    // Mobile menu handlers
+    const handleToggleMobileMenu = () => setMobileMenuOpen(prev => !prev);
+    const handleCloseMobileMenu = () => setMobileMenuOpen(false);
+    
+    // Close mobile menu when tab is selected
+    const handleMobileTabSelect = (tabId) => {
+        handleTabSelect(tabId);
+        handleCloseMobileMenu();
+    };
 
     const handleExport = () => {
         const exportData = {
@@ -214,16 +225,25 @@ const App = () => {
             style: { display: 'none' }
         }),
 
+        // Mobile sidebar backdrop
+        React.createElement('div', {
+            key: 'mobile-backdrop',
+            className: `mobile-sidebar-backdrop ${mobileMenuOpen ? 'active' : ''}`,
+            onClick: handleCloseMobileMenu
+        }),
+
         // Sidebar
         React.createElement(Sidebar, {
             key: 'sidebar',
             tabs, activeTab,
-            onTabSelect: handleTabSelect,
+            onTabSelect: handleMobileTabSelect,
             onNewTab: handleNewTab,
             onDeleteTab: handleDeleteTabRequest,
             onEditTab: handleEditTab,
             collapsed: sidebarCollapsed,
-            onToggleCollapse: handleToggleSidebar
+            onToggleCollapse: handleToggleSidebar,
+            mobileOpen: mobileMenuOpen,
+            onCloseMobile: handleCloseMobileMenu
         }),
 
         // Main content area
@@ -238,7 +258,8 @@ const App = () => {
                 theme, onToggleTheme: handleToggleTheme,
                 fontSize, onFontSizeChange: handleFontSizeChange,
                 wordCount, onExport: handleExport, onImport: handleImport,
-                viewMode, onToggleViewMode: handleToggleViewMode
+                viewMode, onToggleViewMode: handleToggleViewMode,
+                onToggleMobileMenu: handleToggleMobileMenu
             }),
 
             // Editor

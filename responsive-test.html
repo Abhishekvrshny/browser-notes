@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Notes - Responsive Test</title>
+    
+    <!-- External Dependencies -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/marked@9.1.6/marked.min.js"></script>
+    <script src="https://unpkg.com/dompurify@3.0.5/dist/purify.min.js"></script>
+    
+    <!-- Daisy UI -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    
+    <!-- Modular Application Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Modular JavaScript Components -->
+    <script src="js/services/storage.js"></script>
+    <script src="js/services/markdown.js"></script>
+    <script src="js/services/textUtils.js"></script>
+    <script src="js/constants/content.js"></script>
+    
+    <script src="js/components/ContextMenu.js"></script>
+    <script src="js/components/ConfirmDialog.js"></script>
+    <script src="js/components/Sidebar.js"></script>
+    <script src="js/components/Editor.js"></script>
+    <script src="js/components/Toolbar.js"></script>
+    
+    <!-- Main Application -->
+    <script src="js/main.js"></script>
+    
+    <style>
+        /* Mobile viewport simulation for testing */
+        @media (min-width: 769px) {
+            body {
+                max-width: 375px;
+                margin: 0 auto;
+                border: 2px solid #ccc;
+                box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            }
+        }
+        
+        /* Test indicator */
+        .test-indicator {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: #ff6b6b;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 9999;
+            font-family: monospace;
+        }
+        
+        @media (max-width: 768px) {
+            .test-indicator {
+                background: #51cf66;
+            }
+            .test-indicator::after {
+                content: " - MOBILE";
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .test-indicator::after {
+                content: " - DESKTOP (simulated mobile)";
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-indicator">RESPONSIVE TEST</div>
+    <div id="root"></div>
+</body>
+</html>

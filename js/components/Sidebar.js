@@ -1,5 +1,5 @@
 // Sidebar Component
-const Sidebar = ({ tabs, activeTab, onTabSelect, onNewTab, onDeleteTab, onEditTab, collapsed, onToggleCollapse }) => {
+const Sidebar = ({ tabs, activeTab, onTabSelect, onNewTab, onDeleteTab, onEditTab, collapsed, onToggleCollapse, mobileOpen, onCloseMobile }) => {
     const { useState } = React;
     const [editingTab, setEditingTab] = useState(null);
     const [editTitle, setEditTitle] = useState('');
@@ -33,7 +33,7 @@ const Sidebar = ({ tabs, activeTab, onTabSelect, onNewTab, onDeleteTab, onEditTa
     };
 
     return React.createElement('div', {
-        className: `sidebar-container transition-all duration-300 ${collapsed ? 'w-12' : 'w-48'}`,
+        className: `sidebar-container transition-all duration-300 ${collapsed ? 'w-12' : 'w-48'} ${mobileOpen ? 'mobile-open' : ''}`,
         style: {
             background: 'var(--bg-secondary)',
             borderRight: '1px solid var(--border)'

@@ -10,7 +10,8 @@ const Toolbar = ({
     onExport,
     onImport,
     viewMode,
-    onToggleViewMode
+    onToggleViewMode,
+    onToggleMobileMenu
 }) => {
     const handleViewModeSelect = (mode) => {
         if (mode === 'hide') {
@@ -32,7 +33,7 @@ const Toolbar = ({
     };
 
     return React.createElement('div', {
-        className: 'p-3 flex items-center justify-between',
+        className: 'toolbar-mobile p-3 flex items-center justify-between',
         style: {
             background: 'var(--bg-secondary)',
             borderBottom: '1px solid var(--border)',
@@ -41,8 +42,26 @@ const Toolbar = ({
     }, [
         React.createElement('div', {
             key: 'left',
-            className: 'flex items-center gap-3'
+            className: 'toolbar-left flex items-center gap-3'
         }, [
+            // Mobile hamburger menu
+            React.createElement('button', {
+                key: 'mobile-menu',
+                onClick: onToggleMobileMenu,
+                className: 'mobile-menu-button',
+                title: 'Toggle sidebar'
+            }, React.createElement('svg', {
+                className: 'w-5 h-5',
+                fill: 'none',
+                stroke: 'currentColor',
+                viewBox: '0 0 24 24'
+            }, React.createElement('path', {
+                strokeLinecap: 'round',
+                strokeLinejoin: 'round',
+                strokeWidth: 2,
+                d: 'M4 6h16M4 12h16M4 18h16'
+            }))),
+
             // View mode buttons
             React.createElement('div', {
                 key: 'view-buttons',
@@ -171,11 +190,11 @@ const Toolbar = ({
 
         React.createElement('div', {
             key: 'right',
-            className: 'flex items-center gap-3'
+            className: 'toolbar-right flex items-center gap-3'
         }, [
             showPreview && viewMode === 'split' && React.createElement('span', {
                 key: 'shortcut-hint',
-                className: 'text-xs',
+                className: 'text-xs hide-mobile',
                 style: { color: 'var(--text-muted)' }
             }, 'Ctrl+Shift+P'),
 
@@ -188,7 +207,7 @@ const Toolbar = ({
             React.createElement('button', {
                 key: 'export',
                 onClick: onExport,
-                className: 'px-3 py-1 rounded text-sm flex items-center gap-1',
+                className: 'px-3 py-1 rounded text-sm flex items-center gap-1 hide-mobile',
                 style: {
                     background: 'var(--bg-tertiary)',
                     color: 'var(--text-primary)',
@@ -214,7 +233,7 @@ const Toolbar = ({
             React.createElement('button', {
                 key: 'import',
                 onClick: onImport,
-                className: 'px-3 py-1 rounded text-sm flex items-center gap-1',
+                className: 'px-3 py-1 rounded text-sm flex items-center gap-1 hide-mobile',
                 style: {
                     background: 'var(--bg-tertiary)',
                     color: 'var(--text-primary)',
@@ -242,7 +261,7 @@ const Toolbar = ({
                 href: 'https://github.com/Abhishekvrshny/browser-notes',
                 target: '_blank',
                 rel: 'noopener noreferrer',
-                className: 'px-3 py-1 rounded text-sm flex items-center gap-1 transition-colors',
+                className: 'px-3 py-1 rounded text-sm flex items-center gap-1 transition-colors hide-mobile',
                 style: {
                     background: 'var(--bg-tertiary)',
                     color: 'var(--text-primary)',
