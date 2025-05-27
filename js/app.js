@@ -1,0 +1,314 @@
+// Main Application Component
+const App = () => {
+    const { useState, useEffect, useRef } = React;
+    
+    // State management
+    const [tabs, setTabs] = useState(() => storage.get('tabs') || []);
+    const [notes, setNotes] = useState(() => storage.get('notes') || {});
+    const [activeTab, setActiveTab] = useState(() => storage.get('activeTab') || null);
+    const [theme, setTheme] = useState(() => storage.get('theme') || 'light');
+    const [fontSize, setFontSize] = useState(() => storage.get('fontSize') || 14);
+    const [showPreview, setShowPreview] = useState(() => storage.get('showPreview') || false);
+    const [viewMode, setViewMode] = useState(() => storage.get('viewMode') || 'split'); // 'split' or 'preview-only'
+    const [sidebarCollapsed, setSidebarCollapsed] = useState(() => storage.get('sidebarCollapsed') || false);
+    const [contextMenu, setContextMenu] = useState(null);
+    const fileInputRef = useRef(null);
+
+    // Initialize welcome tab if no tabs exist
+    useEffect(() => {
+        if (tabs.length === 0) {
+            const welcomeTab = { 
+                id: 'welcome', 
+                title: 'Welcome', 
+                createdAt: new Date().toISOString() 
+            };
+            const welcomeContent = getWelcomeContent();
+            
+            setTabs([welcomeTab]);
+            setNotes({ welcome: welcomeContent });
+            setActiveTab('welcome');
+        }
+    }, []);
+
+    // Apply theme to document
+    useEffect(() => {
+        document.documentElement.className = theme === 'dark' ? 'dark' : '';
+    }, [theme]);
+
+    // Save state to localStorage
+    useEffect(() => {
+        storage.set('tabs', tabs);
+    }, [tabs]);
+
+    useEffect(() => {
+        storage.set('notes', notes);
+    }, [notes]);
+
+    useEffect(() => {
+        storage.set('activeTab', activeTab);
+    }, [activeTab]);
+
+    useEffect(() => {
+        storage.set('theme', theme);
+    }, [theme]);
+
+    useEffect(() => {
+        storage.set('fontSize', fontSize);
+    }, [fontSize]);
+
+    useEffect(() => {
+        storage.set('showPreview', showPreview);
+    }, [showPreview]);
+
+    useEffect(() => {
+        storage.set('viewMode', viewMode);
+    }, [viewMode]);
+
+    useEffect(() => {
+        storage.set('sidebarCollapsed', sidebarCollapsed);
+    }, [sidebarCollapsed]);
+
+    // Event handlers
+    const handleNewTab = () => {
+        const id = Date.now().toString();
+        const newTab = {
+            id,
+            title: 'New Note',
+            createdAt: new Date().toISOString()
+        };
+        setTabs(prev => [...prev, newTab]);
+        setNotes(prev => ({ ...prev, [id]: '# New Note\n\nStart writing here...' }));
+        setActiveTab(id);
+    };
+
+    const handleTabSelect = (tabId) => {
+        setActiveTab(tabId);
+    };
+
+    const handleDeleteTab = (tabId) => {
+        if (tabs.length <= 1) return; // Don't delete the last tab
+        
+        setTabs(prev => prev.filter(tab => tab.id !== tabId));
+        setNotes(prev => {
+            const newNotes = { ...prev };
+            delete newNotes[tabId];
+            return newNotes;
+        });
+        
+        if (activeTab === tabId) {
+            const remainingTabs = tabs.filter(tab => tab.id !== tabId);
+            setActiveTab(remainingTabs[0]?.id || null);
+        }
+    };
+
+    const handleEditTab = (tabId, newTitle) => {
+        setTabs(prev => prev.map(tab => 
+            tab.id === tabId ? { ...tab, title: newTitle } : tab
+        ));
+    };
+
+    const handleNoteChange = (content) => {
+        if (!activeTab) return;
+        
+        setNotes(prev => ({ ...prev, [activeTab]: content }));
+        
+        // Auto-update tab title based on content
+        const title = extractTitle(content);
+        setTabs(prev => prev.map(tab => 
+            tab.id === activeTab ? { ...tab, title } : tab
+        ));
+    };
+
+    const handleTogglePreview = () => {
+        setShowPreview(prev => {
+            const newShowPreview = !prev;
+            // Reset to split view when enabling preview
+            if (newShowPreview) {
+                setViewMode('split');
+            }
+            return newShowPreview;
+        });
+    };
+
+    const handleToggleViewMode = () => {
+        setViewMode(prev => prev === 'split' ? 'preview-only' : 'split');
+    };
+
+    const handleToggleTheme = () => {
+        setTheme(prev => prev === 'light' ? 'dark' : 'light');
+    };
+
+    const handleFontSizeChange = (newSize) => {
+        setFontSize(newSize);
+    };
+
+    const handleToggleSidebar = () => {
+        setSidebarCollapsed(prev => !prev);
+    };
+
+    const handleExport = () => {
+        const exportData = {
+            tabs,
+            notes,
+            exportDate: new Date().toISOString(),
+            version: '1.0'
+        };
+        
+        const blob = new Blob([JSON.stringify(exportData, null, 2)], {
+            type: 'application/json'
+        });
+        
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `browser-notes-${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    };
+
+    const handleImport = () => {
+        fileInputRef.current?.click();
+    };
+
+    const handleFileImport = (event) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const importData = JSON.parse(e.target.result);
+                
+                if (importData.tabs && importData.notes) {
+                    setTabs(importData.tabs);
+                    setNotes(importData.notes);
+                    setActiveTab(importData.tabs[0]?.id || null);
+                } else {
+                    alert('Invalid file format');
+                }
+            } catch (error) {
+                alert('Error reading file: ' + error.message);
+            }
+        };
+        reader.readAsText(file);
+        
+        // Reset file input
+        event.target.value = '';
+    };
+
+    const handleContextMenu = (event) => {
+        event.preventDefault();
+        setContextMenu({
+            x: event.clientX,
+            y: event.clientY,
+            items: [
+                { label: 'New Note', onClick: handleNewTab },
+                { separator: true },
+                { label: 'Export Notes', onClick: handleExport },
+                { label: 'Import Notes', onClick: handleImport },
+                { separator: true },
+                { label: 'Toggle Theme', onClick: handleToggleTheme },
+                { label: 'Toggle Preview', onClick: handleTogglePreview },
+                showPreview && { label: 'Toggle View Mode', onClick: handleToggleViewMode }
+            ].filter(Boolean)
+        });
+    };
+
+    const closeContextMenu = () => {
+        setContextMenu(null);
+    };
+
+    // Get current note content and word count
+    const currentContent = activeTab ? (notes[activeTab] || '') : '';
+    const wordCount = getWordCount(currentContent);
+
+    return React.createElement('div', {
+        className: `flex h-screen`,
+        style: {
+            background: 'var(--bg-primary)',
+            color: 'var(--text-primary)'
+        },
+        onContextMenu: handleContextMenu
+    }, [
+        // Hidden file input for import
+        React.createElement('input', {
+            key: 'file-input',
+            ref: fileInputRef,
+            type: 'file',
+            accept: '.json',
+            onChange: handleFileImport,
+            style: { display: 'none' }
+        }),
+
+        // Sidebar
+        React.createElement(Sidebar, {
+            key: 'sidebar',
+            tabs,
+            activeTab,
+            onTabSelect: handleTabSelect,
+            onNewTab: handleNewTab,
+            onDeleteTab: handleDeleteTab,
+            onEditTab: handleEditTab,
+            collapsed: sidebarCollapsed,
+            onToggleCollapse: handleToggleSidebar
+        }),
+
+        // Main content area
+        React.createElement('div', {
+            key: 'main',
+            className: 'main-content'
+        }, [
+            // Toolbar
+            React.createElement(Toolbar, {
+                key: 'toolbar',
+                showPreview,
+                onTogglePreview: handleTogglePreview,
+                theme,
+                onToggleTheme: handleToggleTheme,
+                fontSize,
+                onFontSizeChange: handleFontSizeChange,
+                wordCount,
+                onExport: handleExport,
+                onImport: handleImport,
+                viewMode
+            }),
+
+            // Editor
+            activeTab && React.createElement('div', {
+                key: 'editor-area',
+                className: 'editor-area'
+            }, React.createElement(Editor, {
+                content: currentContent,
+                onChange: handleNoteChange,
+                fontSize,
+                showPreview,
+                viewMode,
+                onToggleViewMode: handleToggleViewMode
+            }))
+        ]),
+
+        // Context menu
+        contextMenu && React.createElement(ContextMenu, {
+            key: 'context-menu',
+            x: contextMenu.x,
+            y: contextMenu.y,
+            items: contextMenu.items,
+            onClose: closeContextMenu
+        })
+    ]);
+};
+
+// Initialize the application
+const initApp = () => {
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(React.createElement(App));
+};
+
+// Start the app when DOM is loaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+} else {
+    initApp();
+}

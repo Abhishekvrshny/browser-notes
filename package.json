@@ -1,0 +1,15 @@
+{
+  "name": "browser-notes",
+  "version": "1.0.0",
+  "description": "A browser-based markdown note-taking application",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "node build.js --watch",
+    "serve": "npx http-server . -p 3000 -o"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.0",
+    "@babel/preset-react": "^7.22.0",
+    "chokidar": "^3.5.3"
+  }
+}
