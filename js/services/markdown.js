@@ -1,11 +1,22 @@
 // Configure marked for GitHub-flavored markdown with task lists
 const configureMarkdown = () => {
     if (typeof marked !== 'undefined') {
-        marked.setOptions({ gfm: true, breaks: true, headerIds: true, mangle: false });
+        // Set up marked with proper options
+        marked.setOptions({ 
+            gfm: true, 
+            breaks: true, 
+            headerIds: true, 
+            mangle: false,
+            pedantic: false,
+            sanitize: false,
+            smartLists: true,
+            smartypants: false
+        });
         
         const renderer = new marked.Renderer();
-        const originalListItem = renderer.listitem;
         
+        // Custom list item renderer for task lists
+        const originalListItem = renderer.listitem;
         renderer.listitem = function(text, task, checked) {
             if (task) {
                 const checkbox = checked ? 
@@ -14,6 +25,14 @@ const configureMarkdown = () => {
                 return `<li class="task-list-item">${checkbox} ${text}</li>\n`;
             }
             return originalListItem.call(this, text, task, checked);
+        };
+        
+        // Custom list renderer to ensure proper list styling
+        const originalList = renderer.list;
+        renderer.list = function(body, ordered, start) {
+            const type = ordered ? 'ol' : 'ul';
+            const startatt = (ordered && start !== 1) ? (' start="' + start + '"') : '';
+            return '<' + type + startatt + '>\n' + body + '</' + type + '>\n';
         };
         
         marked.setOptions({ renderer });
