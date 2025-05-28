@@ -3,7 +3,7 @@
     line-height: 1.7; 
     color: var(--text-primary);
     font-family: inherit;
-    font-size: 14px;
+    font-size: inherit; /* Use inherited font size from inline style */
     letter-spacing: 0.01em;
 }
 
