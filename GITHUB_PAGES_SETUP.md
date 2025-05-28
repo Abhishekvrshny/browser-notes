@@ -4,7 +4,7 @@ This repository is now configured for automatic deployment to GitHub Pages using
 
 ## 1. Enable GitHub Pages in Repository Settings
 
-1. Go to your GitHub repository: `https://github.com/Abhishekvrshny/browser-notes`
+1. Go to your GitHub repository: `https://github.com/Abhishekvrshny/jotdown`
 2. Click on **Settings** tab
 3. Scroll down to **Pages** section in the left sidebar
 4. Under **Source**, select **GitHub Actions**
@@ -18,7 +18,7 @@ After enabling GitHub Pages:
 2. You should see the "Deploy to GitHub Pages" workflow running
 3. Once it completes successfully (green checkmark), your site will be available at:
    - **Custom Domain**: https://notes.varlog.co.in (as configured in CNAME file)
-   - **GitHub Pages URL**: https://abhishekvrshny.github.io/browser-notes
+   - **GitHub Pages URL**: https://abhishekvrshny.github.io/jotdown
 
 ## 3. Custom Domain Configuration
 

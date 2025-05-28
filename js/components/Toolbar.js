@@ -302,7 +302,7 @@ const Toolbar = ({
 
             React.createElement('a', {
                 key: 'github-link',
-                href: 'https://github.com/Abhishekvrshny/browser-notes',
+                href: 'https://github.com/Abhishekvrshny/jotdown',
                 target: '_blank',
                 rel: 'noopener noreferrer',
                 className: 'px-3 py-1 rounded text-sm flex items-center gap-1 transition-colors hide-mobile',

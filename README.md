@@ -1,8 +1,8 @@
-# Browser Notes
+# Jotdown
 
 A modern, browser-based markdown note-taking application built with React and vanilla JavaScript. Create, edit, and organize your notes with real-time markdown preview, multiple themes, and persistent local storage.
 
-![Browser Notes](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![Jotdown](https://img.shields.io/badge/version-1.0.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![React](https://img.shields.io/badge/React-18-blue.svg)
 
@@ -37,8 +37,8 @@ Visit the live application: **[https://notes.varlog.co.in](https://notes.varlog.
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/Abhishekvrshny/browser-notes.git
-   cd browser-notes
+   git clone https://github.com/Abhishekvrshny/jotdown.git
+   cd jotdown
    ```
 
 2. **Install dependencies**
@@ -93,7 +93,7 @@ The application will open in your browser at `http://localhost:3000`.
 
 ### Project Structure
 ```
-browser-notes/
+jotdown/
 ├── css/
 │   ├── main.css                 # Main stylesheet
 │   ├── components/              # Component-specific styles
@@ -185,8 +185,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🐛 Issues & Support
 
-- **Bug Reports**: [GitHub Issues](https://github.com/Abhishekvrshny/browser-notes/issues)
-- **Feature Requests**: [GitHub Discussions](https://github.com/Abhishekvrshny/browser-notes/discussions)
+- **Bug Reports**: [GitHub Issues](https://github.com/Abhishekvrshny/jotdown/issues)
+- **Feature Requests**: [GitHub Discussions](https://github.com/Abhishekvrshny/jotdown/discussions)
 
 ## 🙏 Acknowledgments
 

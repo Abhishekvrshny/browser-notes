@@ -1,4 +1,4 @@
-# Browser Notes - Refactoring Guide
+# Jotdown - Refactoring Guide
 
 ## Overview
 
@@ -7,7 +7,7 @@ This project has been refactored from a monolithic structure to a modular archit
 ## New Project Structure
 
 ```
-browser-notes/
+jotdown/
 ├── css/
 │   ├── main.css                    # Main CSS file that imports all modules
 │   ├── themes/

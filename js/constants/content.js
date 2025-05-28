@@ -1,5 +1,5 @@
 // Welcome content for new users
-const getWelcomeContent = () => `# Welcome to Browser Notes
+const getWelcomeContent = () => `# Welcome to Jotdown
 
 This is a powerful browser-based note-taking application with full markdown support!
 

@@ -1,4 +1,4 @@
-# Build Instructions for Browser Notes
+# Build Instructions for Jotdown
 
 This document explains how to use the build utility to transpile JSX files and avoid CORS issues when running the application.
 
@@ -72,7 +72,7 @@ This serves the application at `http://localhost:8080` and automatically opens i
 ## File Structure
 
 ```
-browser-notes/
+jotdown/
 ├── js/
 │   ├── components.js          # Source JSX file (edit this)
 │   ├── components.compiled.js # Generated file (don't edit)
