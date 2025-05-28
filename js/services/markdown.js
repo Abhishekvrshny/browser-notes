@@ -19,10 +19,15 @@ const configureMarkdown = () => {
         const originalListItem = renderer.listitem;
         renderer.listitem = function(text, task, checked) {
             if (task) {
+                // Remove existing HTML input checkbox elements that marked already added
+                let cleanText = text;
+                cleanText = cleanText.replace(/<input[^>]*type="checkbox"[^>]*>/gi, '');
+                cleanText = cleanText.replace(/^\s+/, ''); // trim leading whitespace
+                
                 const checkbox = checked ? 
                     '<input type="checkbox" checked disabled class="task-list-item-checkbox">' : 
                     '<input type="checkbox" disabled class="task-list-item-checkbox">';
-                return `<li class="task-list-item">${checkbox} ${text}</li>\n`;
+                return `<li class="task-list-item">${checkbox} ${cleanText}</li>\n`;
             }
             return originalListItem.call(this, text, task, checked);
         };
