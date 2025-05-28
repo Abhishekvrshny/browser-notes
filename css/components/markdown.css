@@ -1,6 +1,6 @@
 /* Markdown preview styles */
 .markdown-preview {
-    line-height: 1.7; 
+    line-height: 1.5; 
     color: var(--text-primary);
     font-family: inherit;
     font-size: inherit; /* Use inherited font size from inline style */
@@ -11,7 +11,7 @@
     font-size: 2em; 
     font-weight: 700; 
     color: var(--text-primary);
-    margin: 2em 0 1.25em 0;
+    margin: 1em 0 0.5em 0;
     letter-spacing: -0.02em;
 }
 
@@ -19,21 +19,21 @@
     font-size: 1.75em; 
     font-weight: 600; 
     color: var(--text-primary);
-    margin: 1.75em 0 1em 0;
+    margin: 1em 0 0.5em 0;
 }
 
 .markdown-preview h3 { 
     font-size: 1.5em; 
     font-weight: 600; 
     color: var(--text-primary); 
-    margin: 1.5em 0 0.75em 0; 
+    margin: 1em 0 0.5em 0; 
 }
 
 .markdown-preview h4 { 
     font-size: 1.25em; 
     font-weight: 600; 
     color: var(--text-primary); 
-    margin: 1.25em 0 0.75em 0; 
+    margin: 1em 0 0.5em 0; 
 }
 
 .markdown-preview h5 { 
@@ -51,8 +51,8 @@
 }
 
 .markdown-preview p { 
-    margin: 1em 0; 
-    line-height: 1.7; 
+    margin: 0.5em 0; 
+    line-height: 1.5; 
 }
 
 .markdown-preview code {
@@ -71,9 +71,9 @@
     border: 1px solid var(--border-color); 
     border-top: 4px solid var(--accent);
     border-radius: 6px;
-    padding: 1.25em; 
+    padding: 1em; 
     overflow-x: auto; 
-    margin: 1.5em 0;
+    margin: 0.5em 0;
     box-shadow: var(--shadow-md);
     position: relative;
 }
@@ -92,8 +92,8 @@
 .markdown-preview blockquote {
     border-left: 4px solid var(--accent); 
     background: var(--bg-secondary);
-    padding: 1em 1.25em; 
-    margin: 1.5em 0; 
+    padding: 0.75em 1em; 
+    margin: 0.5em 0; 
     color: var(--text-secondary);
     border-radius: 0 var(--border-radius) var(--border-radius) 0;
     box-shadow: var(--shadow-sm);
@@ -114,7 +114,7 @@
 .markdown-preview table {
     border-collapse: collapse; 
     width: 100%;
-    margin: 1.5em 0; 
+    margin: 0.5em 0; 
     border: 1px solid var(--border-color);
     border-radius: 6px;
     overflow: hidden;
@@ -146,7 +146,7 @@
 }
 
 .markdown-preview ul, .markdown-preview ol { 
-    margin: 1em 0; 
+    margin: 0.5em 0; 
     padding-left: 2em; 
     list-style-position: outside;
 }
@@ -160,8 +160,8 @@
 }
 
 .markdown-preview li {
-    margin: 0.5em 0; 
-    line-height: 1.6;
+    margin: 0.25em 0; 
+    line-height: 1.5;
     display: list-item;
 }
 
@@ -187,7 +187,7 @@
 /* Nested lists */
 .markdown-preview ul ul {
     list-style-type: circle;
-    margin: 0.25em 0;
+    margin: 0.125em 0;
 }
 
 .markdown-preview ul ul ul {
@@ -196,7 +196,7 @@
 
 .markdown-preview ol ol {
     list-style-type: lower-alpha;
-    margin: 0.25em 0;
+    margin: 0.125em 0;
 }
 
 .markdown-preview ol ol ol {
@@ -246,7 +246,7 @@
     border: none; 
     height: 2px;
     background: linear-gradient(90deg, transparent, var(--border-color), transparent);
-    margin: 2em 0;
+    margin: 0.75em 0;
 }
 
 .markdown-preview strong { 
