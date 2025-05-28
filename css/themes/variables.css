@@ -15,6 +15,11 @@
     --note-card-bg: #FAFAFA;
     --button-bg: #E0E0E0;
     --button-hover: #D0D0D0;
+    
+    /* Editor-specific backgrounds */
+    --editor-bg: #FDFDFD;
+    --editor-bg-focused: #FFFFFF;
+    --editor-border-focused: #007BFF;
 
     /* Light Theme Text */
     --text-primary: #2A2A2A;
@@ -61,6 +66,11 @@
     --note-card-bg: #2A2A40;
     --button-bg: #3A3A5A;
     --button-hover: #4C4C70;
+    
+    /* Editor-specific backgrounds */
+    --editor-bg: #252537;
+    --editor-bg-focused: #2A2A40;
+    --editor-border-focused: #007BFF;
 
     /* Dark Theme Text Colors */
     --text-primary: #F0F0F0;
@@ -102,5 +112,8 @@
         --border-color: #3E3E4F;
         --accent: #007BFF;
         --accent-hover: #0056b3;
+        --editor-bg: #252537;
+        --editor-bg-focused: #2A2A40;
+        --editor-border-focused: #007BFF;
     }
 }

@@ -4,6 +4,8 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    padding: 0.5rem;
+    background: var(--bg-secondary);
 }
 
 .editor-textarea {
@@ -13,14 +15,23 @@
     overflow-x: auto;
     resize: none;
     padding: 1rem;
-    border: none;
+    border: 1px solid var(--border-color);
     outline: none;
     font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
     line-height: 1.5;
     white-space: pre-wrap;
     word-wrap: break-word;
-    background: var(--bg-primary);
+    background: var(--editor-bg);
     color: var(--text-primary);
+    border-radius: var(--border-radius);
+    transition: all 0.2s ease-in-out;
+    box-shadow: var(--shadow-sm);
+}
+
+.editor-textarea:focus {
+    background: var(--editor-bg-focused);
+    border-color: var(--editor-border-focused);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1), var(--shadow-md);
 }
 
 .preview-container {
